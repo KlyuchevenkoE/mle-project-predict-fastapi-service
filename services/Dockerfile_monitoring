@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+LABEL author=${AUTHOR}
+
+COPY ./ml_service ./services/ml_service
+
+WORKDIR /services
+
+RUN pip3 install -r ml_service/requirements.txt 
+
+EXPOSE ${MAIN_APP_PORT}
+
+VOLUME /services/models
+
+CMD uvicorn ml_service.estate_app_monitoring:app --reload --port ${MAIN_APP_PORT} --host 0.0.0.0 
